@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Blocked</title>
+<link rel="stylesheet" href="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js">
+<style>
+body{
+  margin:0;
+  height:100vh;
+  background:linear-gradient(135deg,#000,#2a2a2a);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+}
+.box{
+  background:linear-gradient(135deg,#0f0f0f,#1f1f1f);
+  padding:35px 40px;
+  border-radius:18px;
+  text-align:center;
+  color:#cfd2d6;
+  box-shadow:0 0 40px rgba(0,0,0,.8);
+}
+h1{
+  margin:15px 0 10px;
+  font-size:32px;
+  background:linear-gradient(135deg,#aaa,#fff,#888);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+p{
+  opacity:.75;
+  font-size:14px;
+  line-height:1.6;
+}
+i{
+  width:48px;
+  height:48px;
+  color:#fff;
+}
+</style>
+</head>
+<body>
+  <div class="box">
+    <i data-lucide="shield-alert"></i>
+    <h1>STOP</h1>
+    <p>
+      You Have Been Blocked For Viewing Raw Lua Script<br>
+      Without Permission To The Owner
+    </p>
+  </div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons()</script>
+</body>
+</html>
