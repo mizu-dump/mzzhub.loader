@@ -1,4 +1,4 @@
-2export default function handler(req, res) {
+export default function handler(req, res) {
   const accept = req.headers.accept || "";
 
   // ===============================
