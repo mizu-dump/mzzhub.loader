@@ -1,6 +1,0 @@
-{
-  "routes": [
-    { "src": "/raw", "dest": "/api/raw.js" },
-    { "src": "/(.*)", "dest": "/public/index.html" }
-  ]
-}
