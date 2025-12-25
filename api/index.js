@@ -5,50 +5,104 @@ export default function handler(req, res) {
   // BLOCK BROWSERS / RAW VIEW
   // ===============================
   if (accept.includes("text/html")) {
-    res.setHeader("Content-Type", "text/html; charset=utf-8");
-    return res.end(`
+    res.setHeader("Content-Type", "text/html");
+res.end(`
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Blocked</title>
+<meta charset="UTF-8" />
+<title>Access Restricted</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 <style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(135deg, #000000, #1a1a1a, #ffffff);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont;
+    background: linear-gradient(120deg, #000, #111, #000);
+    background-size: 400% 400%;
+    animation: liquid 12s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
 }
+
+@keyframes liquid {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .container {
-  background: rgba(0,0,0,0.75);
-  padding: 35px;
-  border-radius: 14px;
-  box-shadow: 0 0 40px rgba(255,255,255,0.15);
-  text-align: center;
-  max-width: 440px;
-  color: white;
+    width: 520px;
+    padding: 36px 40px;
+    border-radius: 18px;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 60px rgba(255,255,255,0.08);
 }
+
+.icon {
+    width: 42px;
+    height: 42px;
+    margin-bottom: 14px;
+    color: #ffffff;
+}
+
 h1 {
-  font-size: 34px;
-  margin-bottom: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    letter-spacing: 0.4px;
 }
+
 p {
-  opacity: 0.85;
-  line-height: 1.5;
+    font-size: 14.5px;
+    line-height: 1.6;
+    opacity: 0.85;
+}
+
+.footer {
+    margin-top: 22px;
+    font-size: 12px;
+    opacity: 0.45;
 }
 </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>🛑 STOP</h1>
+<div class="container">
+    <!-- Lucide-style Shield Icon -->
+    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+            d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"/>
+    </svg>
+
+    <h1>Access Restricted</h1>
+
     <p>
-      You Have Been Blocked For Viewing Raw Lua Script<br>
-      Without Permission From The Owner
+        This endpoint delivers protected Lua content intended for
+        authorized execution environments only.
     </p>
-  </div>
+
+    <p>
+        Direct browser access, inspection, or redistribution of this
+        script is strictly prohibited.
+    </p>
+
+    <p>
+        If you believe this restriction is an error, please contact the
+        script owner for proper authorization.
+    </p>
+
+    <div class="footer">
+        © Secure Script Gateway
+    </div>
+</div>
 </body>
 </html>
 `);
