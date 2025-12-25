@@ -1,7 +1,8 @@
 {
-  "functions": {
-    "api/*.lua": {
-      "runtime": "edge"
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.js"
     }
-  }
+  ]
 }
